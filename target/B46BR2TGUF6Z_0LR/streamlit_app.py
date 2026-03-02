@@ -1,34 +1,21 @@
-FY26_TASK_FORCE_KIMBARA.PUBLIC.STREAMLIT_TESTFY26_TASK_FORCE_KIMBARA.PUBLIC.STREAMLIT_TESTimport json
 import streamlit as st
 import streamlit.components.v1 as components
 
-# HTMLファイルのパス
+# 表示するHTMLのパス（リポジトリ内の相対パス）
 html_file_path = 'target/static_index.html'
 
 st.set_page_config(
-    page_title="dbt App",
-    page_icon="🧊",
+    page_title="dbt Docs Viewer",
     layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://dev.classmethod.jp/',
-        'Report a bug': "https://classmethod.jp/",
-        'About': "Classmethod,Inc"
-    }
+    initial_sidebar_state="collapsed"
 )
 
-st.markdown(
-    r"""
-    <style>
-    .stDeployButton {
-            visibility: hidden;
-        }
-    </style>
-    """, unsafe_allow_html=True
-)
-
-# StreamlitでHTMLを表示
-with open(html_file_path, 'r', encoding='utf-8') as file:
-    html_content = file.read()
-components.html(html_content, height=1024, scrolling=False)
-
+# HTMLファイルを読み込んでStreamlit上で表示
+try:
+    with open(html_file_path, 'r', encoding='utf-8') as file:
+        html_content = file.read()
+    
+    # heightは画面に合わせて調整してください
+    components.html(html_content, height=1200, scrolling=True)
+except FileNotFoundError:
+    st.error(f"ファイルが見つかりません: {html_file_path}")
